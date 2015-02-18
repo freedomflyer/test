@@ -84,7 +84,6 @@ if __name__ == '__main__':
     for rate in util_rates:
         iter, util_rate, time = run_delay_simulation(rate)
         util_rates_plot.append(util_rate)
-        times.append(time/iter)
 
     p = Plotter()
     p.linePlotData(util_rates_plot,times,'Utilization Rate','Average Queueing Time')

@@ -46,14 +46,9 @@ class Plotter:
         ylabel('Y Label (units)')
         savefig('line.png')
 
-    def linePlotData(self,xdata, ydata, xname, yname):
+    def linePlotData(self,xdata, ydata, xname, yname,filename):
         """ Create a line graph. """
         clf()
-
-        #theoretical
-        rho = np.arange(0,1,1.0/100)
-        mu = 1000000.0 / (1000.0 * 8.0)
-        plot(rho,(1/(2*mu))*(rho/(1-rho)),label='Theory',color="green")
 
         #actual
         plot(xdata, ydata,label="Average",color="blue")
@@ -63,7 +58,7 @@ class Plotter:
         #theoretical
         xlabel(xname)
         ylabel(yname)
-        savefig('throughput.png')
+        savefig(filename)
 
     def boxPlot(self):
         """ Create a box plot. """

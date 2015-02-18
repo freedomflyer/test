@@ -35,7 +35,6 @@ class TCP(Connection):
         self.rtt_estimates = {}
         self.total_queue_time = 0
         self.average_queue_time = 0
-        self.timeouts = []
 
         #number of total packets
         self.numpackets = 0
@@ -112,14 +111,13 @@ class TCP(Connection):
         sample_rtt = currTime - prevTime
 
         # calculate estimated rtt and deviation from rtt
-        self.estimated_rtt = (1-.125) * self.estimated_rtt + (.125 * sample_rtt)
-        self.dev_rtt = (1-.25) * self.dev_rtt + .25*abs(sample_rtt - self.estimated_rtt)
+        #self.estimated_rtt = (1-.125) * self.estimated_rtt + (.125 * sample_rtt)
+        #self.dev_rtt = (1-.25) * self.dev_rtt + .25*abs(sample_rtt - self.estimated_rtt)
 
         # set new RTO/timeout. limit to range of [.2,60]
-        self.timeout = self.estimated_rtt + 4 * self.dev_rtt
-        self.timeout = max(0.2, min(self.timeout, 120))
-        self.timeouts.append(self.timeout)
-        self.trace("new timeout: %f" % self.timeout)
+        #self.timeout = self.estimated_rtt + 4 * self.dev_rtt
+        #self.timeout = max(0.2, min(self.timeout, 120))
+
 
         if self.send_buffer.outstanding() <= 0:
             self.cancel_timer()
@@ -129,8 +127,7 @@ class TCP(Connection):
         self.trace("%s (%d) retransmission timer fired" % (self.node.hostname,self.source_address))
         self.timer = None
 
-        self.timeout = max(.2, min(2*self.timeout, 120))
-        self.trace("new timeout: %f" % self.timeout)
+        #self.timeout = max(.2, min(2*self.timeout, 120))
 
         buffered_data, sequence = self.send_buffer.resend(self.mss)
         self.send_packet(buffered_data, sequence)
